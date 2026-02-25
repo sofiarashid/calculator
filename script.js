@@ -14,7 +14,7 @@ let historyParts = []
 // ------------------------------------------------------------------
 // HELPER FUNCTIONS
 function setStatus(message) {
-    document.getElementById('status').textContent = message
+    document.getElementById('statusLine').textContent = message
 }
 function showSymbol(op) {
     if (op === '*') return 'x';
@@ -25,7 +25,7 @@ function showSymbol(op) {
 function updateScreen() {
     const display = document.getElementById('displayLine')
     const history = document.getElementById('historyLine')
-    const status = document.getElementById('status')
+    const status = document.getElementById('statusLine')
     display.textContent = typedNumberText
 }
 
@@ -49,6 +49,16 @@ function pressNumber(digit) {
     }
     updateScreen()
 }
-function pressOperator(operator) {
-    console.log(operator)
+function pressOperator(op) {
+    setStatus("")
+    if (typedNumberText === '' && storedNumber === null) {
+        setStatus("Type a number first.");
+    }
+    if (storedNumber === null) {
+        storedNumber = Number(typedNumberText)
+        currentOperator = op
+        historyParts = [String(storedNumber), (currentOperator)]
+        typedNumberText = ''
+        updateScreen();
+    }
 }
