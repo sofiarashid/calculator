@@ -19,26 +19,30 @@ function setStatus(message) {
 function showSymbol(op) {
     if (op === '*') return 'x';
     if (op === '/') return '÷';
-    if (op === '-') return '&#x2212;'; // Unicode for minus sign
+    if (op === '-') return '−'; // Unicode for minus sign
     return op;
 }
 function updateScreen() {
     const display = document.getElementById('displayLine')
     const history = document.getElementById('historyLine')
     const status = document.getElementById('statusLine')
+
+    if (typedNumberText !== ''){
+        display.textContent = typedNumberText
+    } else {
+        display.textContent = '0'
+    } 
+    
     display.textContent = typedNumberText
+    history.textContent = historyParts
+
+    if (historyParts.length === 0) {history.textContent = ''}
+    if (historyParts.length === 1) {history.textContent = historyParts[0]}
+    if (historyParts.length === 2) {history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1])}
+    if (historyParts.length === 3) {history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1]) + ' ' + historyParts[2]}
+
+    if (status.textContent === '') status.textContent = 'Ready'
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function pressNumber(digit) {
     setStatus('')
@@ -61,4 +65,21 @@ function pressOperator(op) {
         typedNumberText = ''
         updateScreen();
     }
+    if (typedNumberText !== '') {
+        const secondNumber = typedNumberText
+        if (currentOperator === '/' && secondNumber === 0) {
+            setStatus("Cannot divide by zero.")
+            updateScreen()
+            return
+        }
+    }
+}
+
+function clearAll() {
+    typedNumberText = ''
+    storedNumber = null
+    currentOperator = ''
+    historyParts = []
+    setStatus('Cleared.')
+    updateScreen()
 }
