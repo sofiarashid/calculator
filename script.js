@@ -88,7 +88,6 @@ function clearAll() {
     setStatus('Cleared.')
     updateScreen()
 }
-
 function calculate() {
     setStatus('')
     if (storedNumber === null || currentOperator === '' || typedNumberText === '') {
@@ -109,4 +108,4 @@ function calculate() {
     typedNumberText = ''
     setStatus('Calculated.')
     updateScreen()
-}
+}   
