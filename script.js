@@ -73,6 +73,11 @@ function pressOperator(op) {
             return
         }
     }
+    let result = storedNumber
+    if (currentOperator === '+') {result = storedNumber + secondNumber}
+    else if (currentOperator === '-') {result = storedNumber - secondNumber}
+    else if (currentOperator === '*') {result = storedNumber * secondNumber}
+    else if (currentOperator === '/') {result = storedNumber / secondNumber}
 }
 
 function clearAll() {
@@ -81,5 +86,27 @@ function clearAll() {
     currentOperator = ''
     historyParts = []
     setStatus('Cleared.')
+    updateScreen()
+}
+
+function calculate() {
+    setStatus('')
+    if (storedNumber === null || currentOperator === '' || typedNumberText === '') {
+        setStatus('Complete the expression')
+        updateScreen()
+        return
+    }
+    const secondNumber = Number(typedNumberText)
+    historyParts = [String(storedNumber), currentOperator, String(secondNumber)]
+    let result = storedNumber
+    if (currentOperator === '+') {result = storedNumber + secondNumber}
+    else if (currentOperator === '-') {result = storedNumber - secondNumber}
+    else if (currentOperator === '*') {result = storedNumber * secondNumber}
+    else if (currentOperator === '/') {result = storedNumber / secondNumber}
+
+    storedNumber = result
+    currentOperator = ''
+    typedNumberText = ''
+    setStatus('Calculated.')
     updateScreen()
 }
